@@ -20,11 +20,13 @@ export default function Navbar() {
   // Close mobile menu when clicking a link
   const closeMenu = () => setIsOpen(false);
 
-  // Navigation items from Heiven profile
+  // Navigation items from Heiven profile - ✅ Added ProductShowcase
   const navItems = [
     { name: "Home", to: "hero" },
     { name: "About", to: "about" },
     { name: "Services", to: "services" },
+    { name: "Products", to: "products" }, // ✅ Added Product Showcase navigation
+    { name: "Partners", to: "partners" },
     { name: "Contact", to: "contact" },
   ];
 
@@ -178,16 +180,24 @@ export default function Navbar() {
                 </div>
 
                 {/* Mobile CTA */}
-                <motion.button
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full bg-gradient-to-r from-primary to-secondary text-dark font-semibold px-6 py-3 rounded-full mt-4 shadow-lg"
+                <Link
+                  to="contact"
+                  smooth={true}
+                  duration={500}
+                  offset={-70}
+                  className="w-full"
                 >
-                  Get Started
-                </motion.button>
+                  <motion.button
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full bg-gradient-to-r from-primary to-secondary text-dark font-semibold px-6 py-3 rounded-full mt-4 shadow-lg cursor-pointer"
+                  >
+                    Get in Touch
+                  </motion.button>
+                </Link>
 
                 {/* Footer Info */}
                 <div className="mt-8 pt-6 border-t border-gray-800">

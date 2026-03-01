@@ -3,7 +3,10 @@ import { motion } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
-import Partners from "./components/Partners"; // Add this import
+import Services from "./components/Services";
+import ProductShowcase from "./components/ProductShowcase";
+import Partners from "./components/Partners";
+import Contact from "./components/Contact";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -32,24 +35,16 @@ function App() {
       <Navbar />
       <Hero />
       <About />
-      {/* Placeholder for Services - we'll build this next */}
-      <div
-        id="services"
-        className="min-h-screen flex items-center justify-center bg-darker"
-      >
-        <h2 className="text-3xl font-bold text-gray-400">
-          Services Section - Coming Soon
-        </h2>
+      <Services />
+
+      {/* ✅ Add id="products" for navbar link */}
+      <div id="products">
+        <ProductShowcase />
       </div>
-      <Partners /> {/* Add this line */}
-      <div
-        id="contact"
-        className="min-h-screen flex items-center justify-center bg-dark"
-      >
-        <h2 className="text-3xl font-bold text-gray-400">
-          Contact Section - Coming Soon
-        </h2>
-      </div>
+
+      <Partners />
+      <Contact />
+
       <footer className="py-6 text-center text-gray-400 text-sm border-t border-gray-800">
         <p>
           &copy; {new Date().getFullYear()} Heiven Technologies. Connecting

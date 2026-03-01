@@ -47,25 +47,144 @@ export default function Contact() {
       id="contact"
       className="relative py-24 md:py-32 bg-gradient-to-b from-darker via-dark to-darker overflow-hidden"
     >
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Animated Background with Orbital Lines */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Orbital Line 1 - Large Outer Ring */}
         <motion.div
-          animate={{
-            y: [0, -30, 0],
-            scale: [1, 1.1, 1],
-          }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[800px] md:h-[800px] lg:w-[1000px] lg:h-[1000px]"
+        >
+          <div className="absolute inset-0 border-2 border-primary/10 rounded-full"></div>
+          <motion.div
+            animate={{ opacity: [0.2, 0.6, 0.2], scale: [1, 1.05, 1] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-primary rounded-full shadow-lg shadow-primary/50"
+          />
+        </motion.div>
+
+        {/* Orbital Line 2 - Medium Ring (Tilted) */}
+        <motion.div
+          animate={{ rotate: -360 }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] md:w-[650px] md:h-[650px] lg:w-[800px] lg:h-[800px]"
+          style={{ transform: "translate(-50%, -50%) rotateX(60deg)" }}
+        >
+          <div className="absolute inset-0 border-2 border-secondary/15 rounded-full"></div>
+          <motion.div
+            animate={{ opacity: [0.3, 0.7, 0.3], scale: [1, 1.08, 1] }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0.5,
+            }}
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-3 h-3 bg-secondary rounded-full shadow-lg shadow-secondary/50"
+          />
+        </motion.div>
+
+        {/* Orbital Line 3 - Inner Ring */}
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px]"
+          style={{ transform: "translate(-50%, -50%) rotateY(45deg)" }}
+        >
+          <div className="absolute inset-0 border-2 border-primary/20 rounded-full"></div>
+          <motion.div
+            animate={{ opacity: [0.4, 0.8, 0.4], scale: [1, 1.1, 1] }}
+            transition={{
+              duration: 2.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1,
+            }}
+            className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-primary rounded-full shadow-lg shadow-primary/60"
+          />
+        </motion.div>
+
+        {/* Orbital Line 4 - Elliptical Path */}
+        <motion.div
+          animate={{ rotate: -360, scale: [1, 1.1, 1] }}
           transition={{
-            duration: 15,
+            duration: 35,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "linear",
+            scale: { duration: 5, repeat: Infinity, ease: "easeInOut" },
           }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[350px] md:w-[700px] md:h-[450px] lg:w-[850px] lg:h-[550px]"
+        >
+          <div className="absolute inset-0 border-2 border-secondary/12 rounded-[50%]"></div>
+          <motion.div
+            animate={{ opacity: [0.2, 0.6, 0.2] }}
+            transition={{
+              duration: 3.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1.5,
+            }}
+            className="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-secondary rounded-full shadow-lg shadow-secondary/40"
+          />
+        </motion.div>
+
+        {/* Orbital Line 5 - Small Fast Ring */}
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[400px] md:h-[400px]"
+          style={{ transform: "translate(-50%, -50%) rotateZ(30deg)" }}
+        >
+          <div className="absolute inset-0 border border-primary/25 rounded-full"></div>
+          <motion.div
+            animate={{ opacity: [0.5, 0.9, 0.5] }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0.3,
+            }}
+            className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-primary rounded-full"
+          />
+        </motion.div>
+
+        {/* Floating Particles */}
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              y: [0, -30, 0],
+              x: [0, 20 * (i % 2 === 0 ? 1 : -1), 0],
+              opacity: [0.2, 0.6, 0.2],
+            }}
+            transition={{
+              duration: 4 + i * 0.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.3,
+            }}
+            className="absolute w-2 h-2 bg-primary rounded-full"
+            style={{
+              top: `${20 + ((i * 10) % 60)}%`,
+              left: `${15 + ((i * 12) % 70)}%`,
+            }}
+          />
+        ))}
+
+        {/* Glow Effects */}
+        <motion.div
+          animate={{ opacity: [0.1, 0.3, 0.1], scale: [1, 1.2, 1] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[600px] md:h-[600px] bg-primary/20 rounded-full blur-3xl"
+        />
+
+        {/* Original Floating Orbs */}
+        <motion.div
+          animate={{ y: [0, -30, 0], scale: [1, 1.1, 1] }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-20 left-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
         />
         <motion.div
-          animate={{
-            y: [0, 30, 0],
-            scale: [1, 1.2, 1],
-          }}
+          animate={{ y: [0, 30, 0], scale: [1, 1.2, 1] }}
           transition={{
             duration: 18,
             repeat: Infinity,

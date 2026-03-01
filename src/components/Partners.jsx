@@ -1,9 +1,4 @@
-import {
-  motion,
-  useAnimation,
-  useMotionValue,
-  useTransform,
-} from "framer-motion";
+import { motion, useAnimation, useMotionValue } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 
 export default function Partners() {
@@ -33,16 +28,25 @@ export default function Partners() {
     { id: 12, name: "Cell C", logo: "/partners/cellc.png" },
   ];
 
-  // Settings
-  const logosPerPage = 4;
-  const totalPages = Math.ceil(partners.length / logosPerPage);
-
-  // Get current page's partners
-  const getCurrentPagePartners = () => {
-    const start = currentPage * logosPerPage;
-    const end = start + logosPerPage;
-    return partners.slice(start, end);
+  // Settings - Responsive visible count
+  const getVisibleCount = () => {
+    if (typeof window === "undefined") return 2;
+    if (window.innerWidth < 640) return 2; // Mobile: 2 at a time (BIGGER!)
+    if (window.innerWidth < 1024) return 3; // Tablet: 3 at a time
+    return 4; // Desktop: 4 at a time
   };
+
+  const [visibleCount, setVisibleCount] = useState(getVisibleCount());
+  const totalPages = Math.ceil(partners.length / visibleCount);
+
+  // Handle resize
+  useEffect(() => {
+    const handleResize = () => {
+      setVisibleCount(getVisibleCount());
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Auto-rotate pages every 2 seconds
   useEffect(() => {
@@ -79,6 +83,13 @@ export default function Partners() {
       setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
     }
     dragX.set(0);
+  };
+
+  // Get current page partners
+  const getCurrentPagePartners = () => {
+    const start = currentPage * visibleCount;
+    const end = start + visibleCount;
+    return partners.slice(start, end);
   };
 
   return (
@@ -119,15 +130,15 @@ export default function Partners() {
           </p>
         </motion.div>
 
-        {/* Carousel Container - 4 logos per row */}
+        {/* Carousel Container */}
         <div
           className="relative overflow-hidden"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
           {/* Gradient Fade Edges */}
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-dark to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-dark to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-dark to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-dark to-transparent z-10 pointer-events-none"></div>
 
           {/* Draggable Page Track */}
           <motion.div
@@ -141,9 +152,17 @@ export default function Partners() {
             animate={controls}
             style={{ x: dragX }}
           >
-            {/* Current Page Grid - 4 columns */}
+            {/* Current Page Grid */}
             <div className="w-full flex-shrink-0 px-4">
-              <div className="grid grid-cols-4 gap-6 md:gap-8">
+              <div
+                className={`grid gap-6 md:gap-8 ${
+                  visibleCount === 2
+                    ? "grid-cols-2"
+                    : visibleCount === 3
+                      ? "grid-cols-3"
+                      : "grid-cols-4"
+                }`}
+              >
                 {getCurrentPagePartners().map((partner) => (
                   <motion.div
                     key={partner.id}
@@ -151,12 +170,12 @@ export default function Partners() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3 }}
                     whileHover={{
-                      scale: 1.1,
-                      boxShadow: "0 0 40px rgba(0, 217, 255, 0.6)",
+                      scale: 1.08,
+                      boxShadow: "0 0 35px rgba(0, 217, 255, 0.6)",
                     }}
-                    className="group relative aspect-square rounded-2xl bg-darker/50 border-2 border-gray-700 hover:border-primary transition-all duration-300 cursor-grab active:cursor-grabbing flex items-center justify-center p-3 md:p-4"
+                    className="group relative aspect-square rounded-2xl bg-darker/50 border-2 border-gray-700 hover:border-primary transition-all duration-300 cursor-grab active:cursor-grabbing flex items-center justify-center p-4 md:p-6"
                   >
-                    {/* Logo Image - REDUCED BY 13% */}
+                    {/* Logo Image - BIG & CLEAR on Mobile */}
                     <div className="w-full h-full rounded-xl overflow-hidden bg-white/5 flex items-center justify-center">
                       <img
                         src={partner.logo}
@@ -168,7 +187,7 @@ export default function Partners() {
                         }}
                       />
                       {/* Fallback Text */}
-                      <span className="hidden text-gray-400 group-hover:text-primary transition-colors duration-300 font-semibold text-xs md:text-sm text-center items-center justify-center">
+                      <span className="hidden text-gray-400 group-hover:text-primary transition-colors duration-300 font-semibold text-sm md:text-base text-center items-center justify-center">
                         {partner.name}
                       </span>
                     </div>
